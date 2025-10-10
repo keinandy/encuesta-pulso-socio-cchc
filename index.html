@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulso Socio CChC - Compromiso PRO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 6px;
+            margin: 0;
+        }
+
+        .progress-fill {
+            background: #4CAF50;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .block {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .block.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .block-header {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: -40px -40px 30px -40px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .block-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .block-subtitle {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-label {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .question-type {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-bottom: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #4CAF50;
+            background: #f8fff8;
+        }
+
+        .option.selected {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .ranking-container {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+        }
+
+        .ranking-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: move;
+            transition: all 0.2s ease;
+        }
+
+        .ranking-item:hover {
+            background: #e9ecef;
+        }
+
+        .ranking-item.dragging {
+            opacity: 0.5;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .step-indicator {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .completion-message h2 {
+            color: #4CAF50;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .completion-message p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header, .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Pulso Socio CChC</h1>
+            <p>Tu visión construye el futuro. Ayúdanos a diseñar talleres hechos a la medida de tus necesidades reales.</p>
+            <p><strong>Duración estimada:</strong> 12-15 minutos | <strong>Confidencial</strong></p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="content">
+            <!-- BLOQUE 1: NEGOCIO -->
+            <div class="block active" id="block1">
+                <div class="block-header">
+                    <div class="block-title">Bloque 1: Para Entender tu Negocio</div>
+                    <div class="block-subtitle">Duración estimada: 2 minutos</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">1. ¿Cuál de las siguientes opciones describe mejor la actividad principal de tu empresa?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="constructora">
+                            <span>Constructora / Contratista General</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="inmobiliaria">
+                            <span>Inmobiliaria</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="subcontratista">
+                            <span>Subcontratista (ej. eléctrico, sanitario, etc.)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="proveedor">
+                            <span>Proveedor de materiales / equipos</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="consultoria">
+                            <span>Consultoría / Arquitectura / Ingeniería</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="industrial">
+                            <span>Industrial (fabricación de insumos)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="otro">
+                            <span>Otro</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">2. ¿En qué tipo de proyectos se concentra principalmente tu actividad?</div>
+                    <div class="question-type">Pregunta de selección múltiple (hasta dos opciones)</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="vivienda">
+                            <span>Vivienda (en altura / casas)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="vivienda_social">
+                            <span>Vivienda social</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="oficinas">
+                            <span>Oficinas / Comercial</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="industrial">
+                            <span>Industrial / Logística</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="infraestructura">
+                            <span>Infraestructura pública / Obras civiles</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q2" value="salud">
+                            <span>Salud / Educación</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">3. ¿Aproximadamente cuántos trabajadores tiene tu empresa?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="micro">
+                            <span>Menos de 10 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="pequena">
+                            <span>Entre 10 y 49 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="mediana">
+                            <span>Entre 50 y 199 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="mediana_grande">
+                            <span>Entre 200 y 499 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="grande">
+                            <span>500 o más trabajadores</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOQUE 2: DESAFÍOS -->
+            <div class="block" id="block2">
+                <div class="block-header">
+                    <div class="block-title">Bloque 2: Tu Día a Día - Desafíos Operativos</div>
+                    <div class="block-subtitle">Duración estimada: 3-4 minutos</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">4. De los siguientes desafíos, ordena los 3 que más complican el día a día de tu empresa, siendo 1 el más problemático:</div>
+                    <div class="question-type">Pregunta de Ranking (arrastra para ordenar)</div>
+                    <div class="ranking-container" id="rankingContainer">
+                        <div class="ranking-item" draggable="true">Aumento constante en el precio de materiales</div>
+                        <div class="ranking-item" draggable="true">Falta de trabajadores capacitados</div>
+                        <div class="ranking-item" draggable="true">Problemas de flujo de caja y demoras en pagos</div>
+                        <div class="ranking-item" draggable="true">Clientes muy exigentes o contratos rígidos</div>
+                        <div class="ranking-item" draggable="true">Dificultades con subcontratistas y proveedores</div>
+                        <div class="ranking-item" draggable="true">Trámites y permisos burocráticos</div>
+                        <div class="ranking-item" draggable="true">Cumplir plazos y mantener productividad</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">5. Sobre el desafío que marcaste como #1, cuéntanos en una frase: ¿cuál es el principal problema o "dolor de cabeza" que te genera?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q5" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+            </div>
+
+            <!-- BLOQUE 3: FUTURO -->
+            <div class="block" id="block3">
+                <div class="block-header">
+                    <div class="block-title">Bloque 3: Mirando Hacia Adelante - Riesgos y Oportunidades</div>
+                    <div class="block-subtitle">Duración estimada: 2-3 minutos</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">6. Pensando en los próximos 2 años, ¿qué tendencia del entorno crees que definirá el éxito o fracaso de las empresas como la tuya?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="economia">
+                            <span>La inestabilidad económica y el acceso a financiamiento</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="normativas">
+                            <span>Las nuevas exigencias normativas y medioambientales</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="digitalizacion">
+                            <span>La capacidad de digitalizar e industrializar los procesos</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="competencia">
+                            <span>La competencia y la presión sobre los márgenes</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="talento">
+                            <span>La capacidad para atraer y fidelizar al mejor talento</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">7. A pesar de los desafíos, siempre hay oportunidades. ¿Dónde ves tú la veta más clara para que tu negocio crezca o se diferencie en el futuro cercano?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q7" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+            </div>
+
+            <!-- BLOQUE 4: INTERESES -->
+            <div class="block" id="block4">
+                <div class="block-header">
+                    <div class="block-title">Bloque 4: Tus Focos de Interés para Crecer</div>
+                    <div class="block-subtitle">Duración estimada: 3-4 minutos</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">8. Para potenciar tu empresa, nos interesa saber en qué áreas te gustaría adquirir nuevas herramientas o conocimientos. Marca todas las que te parezcan relevantes.</div>
+                    <div class="question-type">Pregunta de selección múltiple</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="estrategia">
+                            <span>Estrategia de Negocio y Nuevas Oportunidades de Mercado</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="finanzas">
+                            <span>Gestión Financiera (control de costos, flujo de caja, financiamiento)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="liderazgo">
+                            <span>Liderazgo y Gestión de Equipos</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="trabajadores">
+                            <span>Encontrar y Mantener Buenos Trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="capacitacion">
+                            <span>Capacitación del Personal (oficios, nuevas técnicas, certificaciones)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="clima">
+                            <span>Clima Laboral y Motivación del Equipo</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="seguridad">
+                            <span>Prevención de Accidentes y Seguridad</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="tecnologia">
+                            <span>Tecnología para Mejorar el Trabajo (software, herramientas digitales)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="negociacion">
+                            <span>Negociación con Clientes y Manejo de Contratos</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="proveedores">
+                            <span>Problemas con Proveedores y Materiales (disponibilidad, precios, calidad)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="comunidad">
+                            <span>Relación con la Comunidad y Vecinos</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="ambiente">
+                            <span>Temas Ambientales (residuos, permisos, eficiencia)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="diferenciacion">
+                            <span>Diferenciarse de la Competencia (qué nos hace únicos)</span>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="q8" value="normativas">
+                            <span>Cumplir con Normativas y Fiscalizaciones</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">9. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
+                    <div class="question-type">Pregunta de opción única (basada en respuestas anteriores)</div>
+                    <div class="options" id="q9Options">
+                        <!-- Se poblará dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">10. Respecto a esa área prioritaria que elegiste, ¿qué problema específico te gustaría resolver o qué habilidad concreta te gustaría aprender?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q10" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">11. ¿Hay algún otro desafío o tema importante para tu empresa que no hayamos mencionado? (Opcional)</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto (opcional)</div>
+                    <textarea class="text-input" name="q11" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+            </div>
+
+            <!-- BLOQUE 5: SOSTENIBILIDAD -->
+            <div class="block" id="block5">
+                <div class="block-header">
+                    <div class="block-title">Bloque 5: Sostenibilidad y Visión de Impacto</div>
+                    <div class="block-subtitle">Duración estimada: 2-3 minutos</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">12. Cuando escuchas 'empresa sostenible', ¿qué es lo primero que te viene a la mente?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q12" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">13. En tu experiencia, ¿qué presiona más a las empresas del sector para ser más sostenibles?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q13" value="clientes">
+                            <span>Los clientes/mandantes lo exigen cada vez más</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="normativas">
+                            <span>Las normativas y fiscalizaciones</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="eficiencia">
+                            <span>Es una oportunidad de reducir costos/ser más eficientes</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="competencia">
+                            <span>La competencia ya lo está haciendo</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="valores">
+                            <span>Es parte de nuestros valores como empresa</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="no_presion">
+                            <span>Honestly, no veo mucha presión todavía</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">14. Si tuvieras que elegir UNA acción concreta para que tu empresa sea más sostenible el próximo año, ¿cuál sería?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q14" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+            </div>
+
+            <!-- PÁGINA DE COMPLETADO -->
+            <div class="block" id="completion">
+                <div class="completion-message">
+                    <h2>¡Gracias por tu participación! 🎉</h2>
+                    <p>Tus respuestas son muy valiosas para nosotros. Utilizaremos esta información para diseñar talleres y cursos que respondan a las necesidades reales de los socios de la CChC.</p>
+                    <br>
+                    <p><strong>Te mantendremos informado sobre los próximos talleres diseñados especialmente para ti.</strong></p>
+                    <br>
+                    <p style="font-size: 0.9em; color: #888;">Equipo Compromiso PRO - CChC</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousBlock()">← Anterior</button>
+                <div class="step-indicator" id="stepIndicator">Bloque 1 de 5</div>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextBlock()">Siguiente →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentBlock = 1;
+        const totalBlocks = 5;
+
+        // Configurar drag and drop para ranking
+        setupDragAndDrop();
+
+        // Configurar validación dinámica para q9
+        setupDynamicQ9();
+
+        function updateProgress() {
+            const progress = ((currentBlock - 1) / totalBlocks) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateStepIndicator() {
+            const indicator = document.getElementById('stepIndicator');
+            if (currentBlock <= totalBlocks) {
+                indicator.textContent = `Bloque ${currentBlock} de ${totalBlocks}`;
+            } else {
+                indicator.textContent = 'Completado';
+            }
+        }
+
+        function showBlock(blockNumber) {
+            // Ocultar todos los bloques
+            const blocks = document.querySelectorAll('.block');
+            blocks.forEach(block => block.classList.remove('active'));
+
+            // Mostrar el bloque actual
+            if (blockNumber <= totalBlocks) {
+                document.getElementById(`block${blockNumber}`).classList.add('active');
+            } else {
+                document.getElementById('completion').classList.add('active');
+            }
+
+            // Actualizar navegación
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.style.display = blockNumber > 1 ? 'block' : 'none';
+            
+            if (blockNumber > totalBlocks) {
+                nextBtn.style.display = 'none';
+            } else if (blockNumber === totalBlocks) {
+                nextBtn.textContent = 'Finalizar →';
+            } else {
+                nextBtn.textContent = 'Siguiente →';
+            }
+
+            updateProgress();
+            updateStepIndicator();
+        }
+
+        function nextBlock() {
+            if (validateCurrentBlock()) {
+                currentBlock++;
+                showBlock(currentBlock);
+            }
+        }
+
+        function previousBlock() {
+            if (currentBlock > 1) {
+                currentBlock--;
+                showBlock(currentBlock);
+            }
+        }
+
+        function validateCurrentBlock() {
+            // Aquí iría la lógica de validación por bloque
+            return true;
+        }
+
+        function setupDragAndDrop() {
+            const container = document.getElementById('rankingContainer');
+            const items = container.querySelectorAll('.ranking-item');
+
+            items.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.outerHTML);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const draggedElement = document.querySelector('.dragging');
+            const dropTarget = e.target.closest('.ranking-item');
+            
+            if (dropTarget && draggedElement !== dropTarget) {
+                const container = document.getElementById('rankingContainer');
+                const draggedData = e.dataTransfer.getData('text/html');
+                
+                dropTarget.insertAdjacentHTML('beforebegin', draggedData);
+                container.removeChild(draggedElement);
+                
+                // Re-setup drag and drop
+                setupDragAndDrop();
+            }
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function setupDynamicQ9() {
+            const q8Checkboxes = document.querySelectorAll('input[name="q8"]');
+            const q9Options = document.getElementById('q9Options');
+            
+            q8Checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Limpiar opciones previas
+                    q9Options.innerHTML = '';
+                    
+                    // Agregar solo las opciones seleccionadas
+                    const selectedOptions = document.querySelectorAll('input[name="q8"]:checked');
+                    selectedOptions.forEach(option => {
+                        const label = option.parentElement.querySelector('span').textContent;
+                        const optionHtml = `
+                            <label class="option">
+                                <input type="radio" name="q9" value="${option.value}">
+                                <span>${label}</span>
+                            </label>
+                        `;
+                        q9Options.innerHTML += optionHtml;
+                    });
+                });
+            });
+        }
+
+        // Agregar interactividad a las opciones
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+                const option = e.target.parentElement;
+                if (e.target.type === 'radio') {
+                    // Remover selección previa para radio buttons
+                    const siblings = option.parentElement.querySelectorAll('.option');
+                    siblings.forEach(sibling => sibling.classList.remove('selected'));
+                }
+                
+                if (e.target.checked) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            }
+        });
+
+        // Inicializar
+        showBlock(1);
+    </script>
+</body>
+</html>
