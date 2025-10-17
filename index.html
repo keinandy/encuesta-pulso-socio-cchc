@@ -5,260 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulso Socio CChC - Compromiso PRO</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- CHG: Estilos base y de layout sin cambios --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 40px; text-align: center; }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; font-weight: 300; }
+        .header p { font-size: 1.1em; opacity: 0.9; line-height: 1.6; }
+        .progress-bar { background: #e0e0e0; height: 6px; margin: 0; }
+        .progress-fill { background: #4CAF50; height: 100%; width: 0%; transition: width 0.3s ease; }
+        .content { padding: 40px; }
+        .block { display: none; animation: fadeIn 0.5s ease-in; }
+        .block.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .block-header { background: #f8f9fa; padding: 20px; margin: -40px -40px 30px -40px; border-left: 4px solid #4CAF50; }
+        .block-title { font-size: 1.4em; color: #333; margin-bottom: 5px; }
+        .block-subtitle { color: #666; font-size: 0.95em; }
+        .question { margin-bottom: 30px; padding: 15px; border-radius: 10px; border: 2px solid transparent; transition: border-color 0.3s ease; }
+        .question-label { font-size: 1.1em; font-weight: 600; color: #333; margin-bottom: 15px; line-height: 1.5; }
+        .question-type { font-size: 0.85em; color: #666; font-style: italic; margin-bottom: 10px; }
+        .options { margin-bottom: 10px; }
+        .option { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #e9ecef; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { border-color: #4CAF50; background: #f8fff8; }
+        .option.selected { border-color: #4CAF50; background: #e8f5e8; }
+        .option input[type="radio"], .option input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; }
+        
+        /* --- CHG: Estilos para el nuevo formato de Ranking --- */
+        .ranking-wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        .ranking-column {
+            flex: 1;
+            min-width: 250px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
+        .ranking-column h3 {
+            font-size: 1em;
+            color: #555;
             margin-bottom: 10px;
-            font-weight: 300;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
         }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            line-height: 1.6;
+        .ranking-source .option, .ranking-target .option {
+            cursor: pointer;
+            user-select: none;
         }
-
-        .progress-bar {
-            background: #e0e0e0;
-            height: 6px;
-            margin: 0;
+        .ranking-source .option.selected {
+            background-color: #f1f3f5;
+            color: #adb5bd;
+            cursor: not-allowed;
+            border-color: #e9ecef;
         }
-
-        .progress-fill {
-            background: #4CAF50;
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
+        .ranking-source .option.selected:hover {
+             background-color: #f1f3f5;
         }
-
-        .content {
-            padding: 40px;
-        }
-
-        .block {
-            display: none;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .block.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .block-header {
-            background: #f8f9fa;
-            padding: 20px;
-            margin: -40px -40px 30px -40px;
-            border-left: 4px solid #4CAF50;
-        }
-
-        .block-title {
-            font-size: 1.4em;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .block-subtitle {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .question {
-            margin-bottom: 30px;
-        }
-
-        .question-label {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .question-type {
-            font-size: 0.85em;
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-
-        .options {
-            margin-bottom: 10px;
-        }
-
-        .option {
+        .ranking-target .target-slot {
             display: flex;
             align-items: center;
             padding: 12px 15px;
-            border: 2px solid #e9ecef;
+            border: 2px dashed #ced4da;
             border-radius: 10px;
             margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            color: #6c757d;
+            height: 53px; /* Altura fija para consistencia */
         }
-
-        .option:hover {
-            border-color: #4CAF50;
-            background: #f8fff8;
-        }
-
-        .option.selected {
+        .ranking-target .target-slot.filled {
+            border-style: solid;
             border-color: #4CAF50;
             background: #e8f5e8;
-        }
-
-        .option input[type="radio"],
-        .option input[type="checkbox"] {
-            margin-right: 12px;
-            width: 18px;
-            height: 18px;
-        }
-
-        .text-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.2s ease;
-        }
-
-        .text-input:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-
-        .ranking-container {
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            min-height: 200px;
-        }
-
-        .ranking-item {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 8px;
-            cursor: move;
-            transition: all 0.2s ease;
-        }
-
-        .ranking-item:hover {
-            background: #e9ecef;
-        }
-
-        .ranking-item.dragging {
-            opacity: 0.5;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1em;
-            font-weight: 600;
+            color: #333;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
-
-        .btn-primary {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .step-indicator {
-            text-align: center;
-            color: #666;
+        .ranking-target .rank-number {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-right: 10px;
             font-size: 0.9em;
         }
-
-        .completion-message {
-            text-align: center;
-            padding: 60px 40px;
+        
+        /* --- CHG: Estilos para validación de errores --- */
+        .question.is-invalid {
+            border-color: #dc3545;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85em;
+            margin-top: 10px;
+            display: none; /* Oculto por defecto */
         }
 
-        .completion-message h2 {
-            color: #4CAF50;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        .completion-message p {
-            font-size: 1.1em;
-            color: #666;
-            line-height: 1.6;
-        }
+        /* --- CHG: Estilos para inputs de texto y navegación (con ajustes menores) --- */
+        .text-input, .input-field { width: 100%; padding: 15px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 1em; transition: border-color 0.2s ease; }
+        .text-input:focus, .input-field:focus { outline: none; border-color: #4CAF50; }
+        .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #e9ecef; }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .btn-primary { background: #4CAF50; color: white; }
+        .btn-primary:hover { background: #45a049; transform: translateY(-2px); }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+        .step-indicator { text-align: center; color: #666; font-size: 0.9em; }
+        .completion-message { text-align: center; padding: 60px 40px; }
+        .completion-message h2 { color: #4CAF50; font-size: 2em; margin-bottom: 20px; }
+        .completion-message p { font-size: 1.1em; color: #666; line-height: 1.6; }
 
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 15px;
-            }
-            
-            .header, .content {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
+            .container { margin: 10px; border-radius: 15px; }
+            .header, .content { padding: 20px; }
+            .header h1 { font-size: 1.8em; }
+            .ranking-wrapper { flex-direction: column; }
         }
     </style>
 </head>
@@ -275,6 +130,8 @@
         </div>
 
         <div class="content">
+            <!-- CHG: La estructura de bloques se mantiene, pero el contenido y la numeración se actualizan -->
+            
             <!-- BLOQUE 1: NEGOCIO -->
             <div class="block active" id="block1">
                 <div class="block-header">
@@ -282,153 +139,90 @@
                     <div class="block-subtitle">Duración estimada: 2 minutos</div>
                 </div>
 
-                <div class="question">
+                <div class="question" data-question-id="q1">
                     <div class="question-label">1. ¿Cuál de las siguientes opciones describe mejor la actividad principal de tu empresa?</div>
                     <div class="question-type">Pregunta de opción única</div>
                     <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q1" value="constructora">
-                            <span>Constructora / Contratista General</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="inmobiliaria">
-                            <span>Inmobiliaria</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="subcontratista">
-                            <span>Subcontratista (ej. eléctrico, sanitario, etc.)</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="proveedor">
-                            <span>Proveedor de materiales / equipos</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="consultoria">
-                            <span>Consultoría / Arquitectura / Ingeniería</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="industrial">
-                            <span>Industrial (fabricación de insumos)</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q1" value="otro">
-                            <span>Otro</span>
-                        </label>
+                         <label class="option"><input type="radio" name="q1" value="constructora"><span>Constructora / Contratista General</span></label>
+                         <label class="option"><input type="radio" name="q1" value="inmobiliaria"><span>Inmobiliaria</span></label>
+                         <label class="option"><input type="radio" name="q1" value="subcontratista"><span>Subcontratista (ej. eléctrico, sanitario, etc.)</span></label>
+                         <label class="option"><input type="radio" name="q1" value="proveedor"><span>Proveedor de materiales / equipos</span></label>
+                         <label class="option"><input type="radio" name="q1" value="consultoria"><span>Consultoría / Arquitectura / Ingeniería</span></label>
+                         <label class="option"><input type="radio" name="q1" value="industrial"><span>Industrial (fabricación de insumos)</span></label>
+                         <label class="option"><input type="radio" name="q1" value="otro"><span>Otro</span></label>
                     </div>
+                    <div class="error-message">Por favor, selecciona una opción.</div>
                 </div>
 
-                <div class="question">
+                <div class="question" data-question-id="q2">
                     <div class="question-label">2. ¿En qué tipo de proyectos se concentra principalmente tu actividad?</div>
                     <div class="question-type">Pregunta de selección múltiple (hasta dos opciones)</div>
                     <div class="options">
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="vivienda">
-                            <span>Vivienda (en altura / casas)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="vivienda_social">
-                            <span>Vivienda social</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="oficinas">
-                            <span>Oficinas / Comercial</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="industrial">
-                            <span>Industrial / Logística</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="infraestructura">
-                            <span>Infraestructura pública / Obras civiles</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q2" value="salud">
-                            <span>Salud / Educación</span>
-                        </label>
+                         <label class="option"><input type="checkbox" name="q2" value="vivienda"><span>Vivienda (en altura / casas)</span></label>
+                         <label class="option"><input type="checkbox" name="q2" value="vivienda_social"><span>Vivienda social</span></label>
+                         <label class="option"><input type="checkbox" name="q2" value="oficinas"><span>Oficinas / Comercial</span></label>
+                         <label class="option"><input type="checkbox" name="q2" value="industrial"><span>Industrial / Logística</span></label>
+                         <label class="option"><input type="checkbox" name="q2" value="infraestructura"><span>Infraestructura pública / Obras civiles</span></label>
+                         <label class="option"><input type="checkbox" name="q2" value="salud"><span>Salud / Educación</span></label>
                     </div>
+                    <div class="error-message">Por favor, selecciona hasta dos opciones.</div>
                 </div>
 
-                <!-- CHG: Pregunta 3 original dividida en 3a, 3b, 3c -->
-                <div class="question">
-                    <div class="question-label">3.a. ¿Aproximadamente cuántos trabajadores DIRECTOS (personal de planta) tiene tu empresa?</div>
+                <!-- CHG: Nueva pregunta 3 -->
+                <div class="question" data-question-id="q3">
+                    <div class="question-label">3. Número de centros de trabajo actualmente (considera: oficinas, salas de venta, bodegas, obras en construcción, fábricas, etc.)</div>
                     <div class="question-type">Pregunta de opción única</div>
                     <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q3a" value="micro">
-                            <span>Menos de 10 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3a" value="pequena">
-                            <span>Entre 10 y 49 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3a" value="mediana">
-                            <span>Entre 50 y 199 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3a" value="mediana_grande">
-                            <span>Entre 200 y 499 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3a" value="grande">
-                            <span>500 o más trabajadores</span>
-                        </label>
+                        <label class="option"><input type="radio" name="q3" value="1"><span>Solamente 1</span></label>
+                        <label class="option"><input type="radio" name="q3" value="2-5"><span>Entre 2 y 5</span></label>
+                        <label class="option"><input type="radio" name="q3" value="6-10"><span>Entre 6 y 10</span></label>
+                        <label class="option"><input type="radio" name="q3" value="10+"><span>Más de 10</span></label>
                     </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-label">3.b. Y, en un mes promedio, ¿cuántos trabajadores INDIRECTOS (subcontratados) moviliza tu empresa?</div>
-                    <div class="question-type">Pregunta de opción única</div>
-                    <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q3b" value="micro">
-                            <span>Menos de 10 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3b" value="pequena">
-                            <span>Entre 10 y 49 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3b" value="mediana">
-                            <span>Entre 50 y 199 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3b" value="mediana_grande">
-                            <span>Entre 200 y 499 trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3b" value="grande">
-                            <span>500 o más trabajadores</span>
-                        </label>
-                    </div>
+                    <div class="error-message">Por favor, selecciona una opción.</div>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">3.c. Proyectando a 6 meses, ¿cómo esperas que varíe tu dotación total de trabajadores (directos + indirectos)?</div>
+                <!-- CHG: Pregunta renumerada a 4a -->
+                <div class="question" data-question-id="q4a">
+                    <div class="question-label">4.a. ¿Aproximadamente cuántos trabajadores DIRECTOS (personal de planta) tiene tu empresa?</div>
                     <div class="question-type">Pregunta de opción única</div>
                     <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q3c" value="aumenta_mucho">
-                            <span>Aumentará significativamente</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3c" value="aumenta_poco">
-                            <span>Aumentará ligeramente</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3c" value="mantiene">
-                            <span>Se mantendrá similar</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3c" value="disminuye_poco">
-                            <span>Disminuirá ligeramente</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q3c" value="disminuye_mucho">
-                            <span>Disminuirá significativamente</span>
-                        </label>
+                        <label class="option"><input type="radio" name="q4a" value="micro"><span>Menos de 10 trabajadores</span></label>
+                        <label class="option"><input type="radio" name="q4a" value="pequena"><span>Entre 10 y 49 trabajadores</span></label>
+                        <label class="option"><input type="radio" name="q4a" value="mediana"><span>Entre 50 y 199 trabajadores</span></label>
+                        <label class="option"><input type="radio" name="q4a" value="mediana_grande"><span>Entre 200 y 499 trabajadores</span></label>
+                        <label class="option"><input type="radio" name="q4a" value="grande"><span>500 o más trabajadores</span></label>
                     </div>
+                    <div class="error-message">Por favor, selecciona una opción.</div>
                 </div>
+
+                <!-- CHG: Pregunta renumerada a 4b -->
+                <div class="question" data-question-id="q4b">
+                    <div class="question-label">4.b. Y, en un mes promedio, ¿cuántos trabajadores INDIRECTOS (subcontratados) moviliza tu empresa?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                         <label class="option"><input type="radio" name="q4b" value="micro"><span>Menos de 10 trabajadores</span></label>
+                         <label class="option"><input type="radio" name="q4b" value="pequena"><span>Entre 10 y 49 trabajadores</span></label>
+                         <label class="option"><input type="radio" name="q4b" value="mediana"><span>Entre 50 y 199 trabajadores</span></label>
+                         <label class="option"><input type="radio" name="q4b" value="mediana_grande"><span>Entre 200 y 499 trabajadores</span></label>
+                         <label class="option"><input type="radio" name="q4b" value="grande"><span>500 o más trabajadores</span></label>
+                    </div>
+                    <div class="error-message">Por favor, selecciona una opción.</div>
+                </div>
+
+                <!-- CHG: Pregunta renumerada a 4c -->
+                <div class="question" data-question-id="q4c">
+                    <div class="question-label">4.c. Proyectando a 6 meses, ¿cómo esperas que varíe tu dotación total de trabajadores (directos + indirectos)?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                         <label class="option"><input type="radio" name="q4c" value="aumenta_sig"><span>Aumentará significativamente</span></label>
+                         <label class="option"><input type="radio" name="q4c" value="aumenta_lig"><span>Aumentará ligeramente</span></label>
+                         <label class="option"><input type="radio" name="q4c" value="mantiene"><span>Se mantendrá similar</span></label>
+                         <label class="option"><input type="radio" name="q4c" value="disminuye_lig"><span>Disminuirá ligeramente</span></label>
+                         <label class="option"><input type="radio" name="q4c" value="disminuye_sig"><span>Disminuirá significativamente</span></label>
+                    </div>
+                    <div class="error-message">Por favor, selecciona una opción.</div>
+                </div>
+
             </div>
 
             <!-- BLOQUE 2: DESAFÍOS -->
@@ -438,168 +232,192 @@
                     <div class="block-subtitle">Duración estimada: 3-4 minutos</div>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">4. De los siguientes desafíos, ordena los 3 que más complican el día a día de tu empresa, siendo 1 el más problemático:</div>
-                    <div class="question-type">Pregunta de Ranking (arrastra para ordenar)</div>
-                    <div class="ranking-container" id="rankingContainer">
-                        <div class="ranking-item" draggable="true">Aumento constante en el precio de materiales</div>
-                        <div class="ranking-item" draggable="true">Falta de trabajadores capacitados</div>
-                        <div class="ranking-item" draggable="true">Problemas de flujo de caja y demoras en pagos</div>
-                        <div class="ranking-item" draggable="true">Clientes muy exigentes o contratos rígidos</div>
-                        <div class="ranking-item" draggable="true">Dificultades con subcontratistas y proveedores</div>
-                        <div class="ranking-item" draggable="true">Trámites y permisos burocráticos</div>
-                        <div class="ranking-item" draggable="true">Cumplir plazos y mantener productividad</div>
-                        <!-- CHG: Se agregan 2 nuevas opciones al ranking -->
-                        <div class="ranking-item" draggable="true">Acceso a financiamiento</div>
-                        <div class="ranking-item" draggable="true">Conflictos con tus grupos de interés (comunidades, municipios, ong's)</div>
+                <!-- CHG: Pregunta 5 (antes 4) con nuevo formato de ranking -->
+                <div class="question" data-question-id="q5">
+                    <div class="question-label">5. De los siguientes desafíos, selecciona los 3 que más complican el día a día de tu empresa.</div>
+                    <div class="question-type">Pregunta de Ranking (haz clic para seleccionar tus 3 principales)</div>
+                    <div class="ranking-wrapper" id="ranking_q5">
+                        <div class="ranking-column">
+                            <h3>Opciones Disponibles</h3>
+                            <div class="ranking-source">
+                                <div class="option" data-value="precio_materiales">Aumento constante en el precio de materiales</div>
+                                <div class="option" data-value="falta_trabajadores">Falta de trabajadores capacitados</div>
+                                <div class="option" data-value="flujo_caja">Problemas de flujo de caja y demoras en pagos</div>
+                                <div class="option" data-value="clientes_exigentes">Clientes muy exigentes o contratos rígidos</div>
+                                <div class="option" data-value="dificultad_subcontratistas">Dificultades con subcontratistas y proveedores</div>
+                                <div class="option" data-value="tramites">Trámites y permisos burocráticos</div>
+                                <div class="option" data-value="plazos_productividad">Cumplir plazos y mantener productividad</div>
+                                <div class="option" data-value="acceso_financiamiento">Acceso a financiamiento</div>
+                                <div class="option" data-value="conflictos_comunidades">Conflictos con tus grupos de interés (comunidades, municipios, ong's)</div>
+                            </div>
+                        </div>
+                        <div class="ranking-column">
+                            <h3>Tu Ranking</h3>
+                            <div class="ranking-target">
+                                <div class="target-slot"><span class="rank-number">1º</span></div>
+                                <div class="target-slot"><span class="rank-number">2º</span></div>
+                                <div class="target-slot"><span class="rank-number">3º</span></div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="error-message">Por favor, selecciona 3 desafíos.</div>
                 </div>
 
-                <div class="question">
-                    <!-- CHG: Se reformula la pregunta 5 para abarcar los 3 desafíos -->
-                    <div class="question-label">5. Respecto a los 3 desafíos principales que ordenaste, ¿podrías describir brevemente por qué son tan complejos para tu operación?</div>
+                <div class="question" data-question-id="q6">
+                    <div class="question-label">6. Respecto a los 3 desafíos principales que seleccionaste, ¿podrías describir brevemente por qué son tan complejos para tu operación?</div>
                     <div class="question-type">Pregunta abierta, campo de texto</div>
-                    <textarea class="text-input" name="q5" rows="4" placeholder="Ej: 'La falta de personal cualificado (1) nos retrasa las obras, y el alza de precios (2) nos obliga a renegociar contratos constantemente...'"></textarea>
+                    <textarea class="text-input" name="q6" rows="3" placeholder="Ej: 'La falta de personal cualificado (1) nos retrasa las obras, y el alza de precios (2) nos obliga a renegociar contratos constantemente...'"></textarea>
+                    <div class="error-message">Por favor, completa este campo.</div>
                 </div>
             </div>
 
             <!-- BLOQUE 3: FUTURO -->
             <div class="block" id="block3">
-                <div class="block-header">
+                 <div class="block-header">
                     <div class="block-title">Bloque 3: Mirando Hacia Adelante - Riesgos y Oportunidades</div>
                     <div class="block-subtitle">Duración estimada: 2-3 minutos</div>
                 </div>
 
-                <div class="question">
-                    <!-- CHG: Pregunta 6 convertida a Ranking y con nueva opción -->
-                    <div class="question-label">6. Pensando en los próximos 2 años, ordena las siguientes tendencias del entorno según el impacto (positivo o negativo) que crees que tendrán en empresas como la tuya:</div>
-                    <div class="question-type">Pregunta de Ranking (arrastra para ordenar)</div>
-                    <div class="ranking-container" id="rankingContainer2">
-                        <div class="ranking-item" draggable="true">La inestabilidad económica y el acceso a financiamiento</div>
-                        <div class="ranking-item" draggable="true">Las nuevas exigencias normativas y medioambientales</div>
-                        <div class="ranking-item" draggable="true">La capacidad de digitalizar e industrializar los procesos</div>
-                        <div class="ranking-item" draggable="true">La competencia y la presión sobre los márgenes</div>
-                        <div class="ranking-item" draggable="true">La capacidad para atraer y fidelizar al mejor talento</div>
-                        <div class="ranking-item" draggable="true">Alza del costo de la mano de obra</div>
+                <!-- CHG: Pregunta 7 (antes 6) con nuevo formato de ranking y texto ajustado -->
+                <div class="question" data-question-id="q7">
+                    <div class="question-label">7. Pensando en los próximos 2 años, selecciona las 3 tendencias del entorno con mayor impacto para empresas como la tuya.</div>
+                    <div class="question-type">Pregunta de Ranking (haz clic para seleccionar tus 3 principales)</div>
+                     <div class="ranking-wrapper" id="ranking_q7">
+                        <div class="ranking-column">
+                            <h3>Opciones Disponibles</h3>
+                            <div class="ranking-source">
+                                <div class="option" data-value="inestabilidad_economica">La inestabilidad económica y el acceso a financiamiento</div>
+                                <div class="option" data-value="exigencias_normativas">Las nuevas exigencias normativas y medioambientales</div>
+                                <div class="option" data-value="digitalizacion">La capacidad de digitalizar e industrializar los procesos</div>
+                                <div class="option" data-value="competencia_margenes">La competencia y la presión sobre los márgenes</div>
+                                <div class="option" data-value="fidelizar_talento">La capacidad para atraer y fidelizar al mejor talento</div>
+                                <div class="option" data-value="costo_mano_obra">Alza del costo de la mano de obra</div>
+                            </div>
+                        </div>
+                        <div class="ranking-column">
+                            <h3>Tu Ranking</h3>
+                            <div class="ranking-target">
+                                <div class="target-slot"><span class="rank-number">1º</span></div>
+                                <div class="target-slot"><span class="rank-number">2º</span></div>
+                                <div class="target-slot"><span class="rank-number">3º</span></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- CHG: Nueva pregunta 7 intermedia -->
-                <div class="question">
-                    <div class="question-label">7. Sobre la tendencia que marcaste como #1, ¿la ves principalmente como un RIESGO (que podría llevar al fracaso) o como una OPORTUNIDAD (que podría impulsar el éxito) para tu empresa? ¿Por qué?</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
-                    <textarea class="text-input" name="q7" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <div class="error-message">Por favor, selecciona 3 tendencias.</div>
                 </div>
 
-                <!-- CHG: Pregunta 7 original pasa a ser la 8 y se cambia "negocio" por "empresa" -->
-                <div class="question">
-                    <div class="question-label">8. A pesar de los desafíos, siempre hay oportunidades. ¿Dónde ves tú la veta más clara para que tu empresa crezca o se diferencie en el futuro cercano?</div>
+                <div class="question" data-question-id="q8">
+                    <div class="question-label">8. Sobre la tendencia que marcaste como #1, ¿la ves principalmente como un RIESGO (que podría llevar al fracaso) o como una OPORTUNIDAD (que podría impulsar el éxito) para tu empresa? ¿Por qué?</div>
                     <div class="question-type">Pregunta abierta, campo de texto corto</div>
                     <textarea class="text-input" name="q8" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <div class="error-message">Por favor, completa este campo.</div>
+                </div>
+
+                <div class="question" data-question-id="q9">
+                    <div class="question-label">9. A pesar de los desafíos, siempre hay oportunidades. ¿Dónde ves tú la veta más clara para que tu empresa crezca o se diferencie en el futuro cercano?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q9" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <div class="error-message">Por favor, completa este campo.</div>
                 </div>
             </div>
 
             <!-- BLOQUE 4: INTERESES -->
             <div class="block" id="block4">
-                <!-- CHG: Título del bloque actualizado -->
-                <div class="block-header">
+                 <div class="block-header">
                     <div class="block-title">Bloque 4: Focos de Interés y Visión Final</div>
                     <div class="block-subtitle">Duración estimada: 3-4 minutos</div>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">9. Para potenciar tu empresa, nos interesa saber en qué áreas te gustaría adquirir nuevas herramientas o conocimientos. Marca todas las que te parezcan relevantes.</div>
+                <div class="question" data-question-id="q10">
+                    <div class="question-label">10. Para potenciar tu empresa, nos interesa saber en qué áreas te gustaría adquirir nuevas herramientas o conocimientos. Marca todas las que te parezcan relevantes.</div>
                     <div class="question-type">Pregunta de selección múltiple</div>
                     <div class="options">
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="estrategia">
-                            <span>Estrategia de Negocio y Nuevas Oportunidades de Mercado</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="finanzas">
-                            <span>Gestión Financiera (control de costos, flujo de caja, financiamiento)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="liderazgo">
-                            <span>Liderazgo y Gestión de Equipos</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="trabajadores">
-                            <span>Encontrar y Mantener Buenos Trabajadores</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="capacitacion">
-                            <span>Capacitación del Personal (oficios, nuevas técnicas, certificaciones)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="clima">
-                            <span>Clima Laboral y Motivación del Equipo</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="seguridad">
-                            <span>Prevención de Accidentes y Seguridad</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="tecnologia">
-                            <span>Tecnología para Mejorar el Trabajo (software, herramientas digitales)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="negociacion">
-                            <span>Negociación con Clientes y Manejo de Contratos</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="proveedores">
-                            <span>Problemas con Proveedores y Materiales (disponibilidad, precios, calidad)</span>
-                        </label>
-                        <!-- CHG: Opción "Comunidad y Vecinos" reemplazada -->
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="grupos_interes">
-                            <span>Relación con grupos de interés (comunidades, municipios, ong's)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="ambiente">
-                            <span>Temas Ambientales (residuos, permisos, eficiencia)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="diferenciacion">
-                            <span>Diferenciarse de la Competencia (qué nos hace únicos)</span>
-                        </label>
-                        <label class="option">
-                            <input type="checkbox" name="q9" value="normativas">
-                            <span>Cumplir con Normativas y Fiscalizaciones</span>
-                        </label>
+                        <label class="option"><input type="checkbox" name="q10" value="estrategia"><span>Estrategia de Negocio y Nuevas Oportunidades de Mercado</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="finanzas"><span>Gestión Financiera (control de costos, flujo de caja, financiamiento)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="liderazgo"><span>Liderazgo y Gestión de Equipos</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="trabajadores"><span>Encontrar y Mantener Buenos Trabajadores</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="capacitacion"><span>Capacitación del Personal (oficios, nuevas técnicas, certificaciones)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="clima"><span>Clima Laboral y Motivación del Equipo</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="seguridad"><span>Prevención de Accidentes y Seguridad</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="tecnologia"><span>Tecnología para Mejorar el Trabajo (software, herramientas digitales)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="negociacion"><span>Negociación con Clientes y Manejo de Contratos</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="proveedores"><span>Problemas con Proveedores y Materiales (disponibilidad, precios, calidad)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="ambiente"><span>Temas Ambientales (residuos, permisos, eficiencia)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="diferenciacion"><span>Diferenciarse de la Competencia (qué nos hace únicos)</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="normativas"><span>Cumplir con Normativas y Fiscalizaciones</span></label>
+                        <label class="option"><input type="checkbox" name="q10" value="grupos_interes"><span>Relación con grupos de interés (comunidades, municipios, ong's)</span></label>
                     </div>
+                    <div class="error-message">Por favor, selecciona al menos una área.</div>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">10. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
+                <div class="question" data-question-id="q11">
+                    <div class="question-label">11. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
                     <div class="question-type">Pregunta de opción única (basada en respuestas anteriores)</div>
-                    <div class="options" id="q10Options">
-                        <!-- Se poblará dinámicamente -->
+                    <div class="options" id="q11Options">
+                         <!-- Se poblará dinámicamente -->
+                         <p style="color: #666; font-style: italic;">Selecciona primero tus áreas de interés en la pregunta anterior.</p>
                     </div>
+                    <div class="error-message">Por favor, selecciona tu área prioritaria.</div>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">11. Respecto a esa área prioritaria que elegiste, ¿qué problema específico te gustaría resolver o qué habilidad concreta te gustaría aprender?</div>
+                <div class="question" data-question-id="q12">
+                    <div class="question-label">12. Respecto a esa área prioritaria que elegiste, ¿qué problema específico te gustaría resolver o qué habilidad concreta te gustaría aprender?</div>
                     <div class="question-type">Pregunta abierta, campo de texto corto</div>
-                    <textarea class="text-input" name="q11" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
-                </div>
-
-                <div class="question">
-                    <div class="question-label">12. ¿Hay algún otro desafío o tema importante para tu empresa que no hayamos mencionado? (Opcional)</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto (opcional)</div>
                     <textarea class="text-input" name="q12" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <div class="error-message">Por favor, completa este campo.</div>
                 </div>
 
-                <!-- CHG: Pregunta 13 (antes 12 del bloque 5) movida aquí como pregunta final -->
-                 <div class="question">
-                    <div class="question-label">13. Por último, cuando escuchas 'empresa sostenible', ¿qué es lo primero que te viene a la mente?</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                <div class="question" data-question-id="q13">
+                    <div class="question-label">13. ¿Hay algún otro desafío o tema importante para tu empresa que no hayamos mencionado? (Opcional)</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto (opcional)</div>
                     <textarea class="text-input" name="q13" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+
+                <div class="question" data-question-id="q14">
+                    <div class="question-label">14. Por último, cuando escuchas 'empresa sostenible', ¿qué es lo primero que te viene a la mente?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q14" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <div class="error-message">Por favor, completa este campo.</div>
                 </div>
             </div>
 
-            <!-- CHG: Bloque 5 completamente eliminado -->
+            <!-- CHG: Nuevo bloque 5 con datos de contacto -->
+            <div class="block" id="block5">
+                <div class="block-header">
+                    <div class="block-title">Bloque 5: Datos de Contacto (Obligatorio)</div>
+                    <div class="block-subtitle">Tu información es confidencial y será usada solo para esta iniciativa.</div>
+                </div>
+
+                <div class="question" data-question-id="q15">
+                    <div class="question-label">15. Nombre y Apellido</div>
+                    <input type="text" name="q15" class="input-field" placeholder="Ej: Juan Pérez">
+                    <div class="error-message">Por favor, ingresa tu nombre y apellido.</div>
+                </div>
+
+                <div class="question" data-question-id="q16">
+                    <div class="question-label">16. RUT (Personal)</div>
+                    <input type="text" name="q16" class="input-field rut-field" placeholder="Ej: 12345678-9">
+                    <div class="error-message">Por favor, ingresa un RUT válido.</div>
+                </div>
+                
+                <div class="question" data-question-id="q17">
+                    <div class="question-label">17. Nombre de la Empresa</div>
+                    <input type="text" name="q17" class="input-field" placeholder="Ej: Constructora El Futuro SpA">
+                    <div class="error-message">Por favor, ingresa el nombre de la empresa.</div>
+                </div>
+
+                <div class="question" data-question-id="q18">
+                    <div class="question-label">18. RUT de la Empresa</div>
+                    <input type="text" name="q18" class="input-field rut-field" placeholder="Ej: 76123456-7">
+                    <div class="error-message">Por favor, ingresa un RUT válido para la empresa.</div>
+                </div>
+
+                <div class="question" data-question-id="q19">
+                    <div class="question-label">19. Correo Electrónico de Contacto</div>
+                    <input type="email" name="q19" class="input-field" placeholder="Ej: juan.perez@empresa.cl">
+                    <div class="error-message">Por favor, ingresa un correo electrónico válido.</div>
+                </div>
+            </div>
 
             <!-- PÁGINA DE COMPLETADO -->
             <div class="block" id="completion">
@@ -615,196 +433,315 @@
 
             <div class="navigation">
                 <button class="btn btn-secondary" id="prevBtn" onclick="previousBlock()">← Anterior</button>
-                <div class="step-indicator" id="stepIndicator">Bloque 1 de 4</div>
+                <div class="step-indicator" id="stepIndicator">Bloque 1 de 5</div>
                 <button class="btn btn-primary" id="nextBtn" onclick="nextBlock()">Siguiente →</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentBlock = 1;
-        // CHG: Se actualiza el número total de bloques de 5 a 4
-        const totalBlocks = 4;
+    // --- CHG: Script completamente refactorizado para nuevas funcionalidades ---
+    
+    // #region Estado y Configuración
+    let currentBlock = 1;
+    const totalBlocks = 5; // Actualizado a 5 bloques
+    const formResponses = {};
+    // #endregion
 
-        // Configurar drag and drop para ranking
-        setupDragAndDrop();
+    // #region Funciones de Navegación y Progreso
+    function showBlock(blockNumber) {
+        document.querySelectorAll('.block').forEach(block => block.classList.remove('active'));
 
-        // Configurar validación dinámica para q10 (antes q9)
-        setupDynamicQ10();
-
-        function updateProgress() {
-            const progress = ((currentBlock - 1) / totalBlocks) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
+        if (blockNumber <= totalBlocks) {
+            const currentBlockEl = document.getElementById(`block${blockNumber}`);
+            if (currentBlockEl) currentBlockEl.classList.add('active');
+        } else {
+            document.getElementById('completion').classList.add('active');
         }
+        updateNavigation(blockNumber);
+        updateProgress(blockNumber);
+        updateStepIndicator(blockNumber);
+        window.scrollTo(0, 0);
+    }
 
-        function updateStepIndicator() {
-            const indicator = document.getElementById('stepIndicator');
-            if (currentBlock <= totalBlocks) {
-                indicator.textContent = `Bloque ${currentBlock} de ${totalBlocks}`;
-            } else {
-                indicator.textContent = 'Completado';
-            }
+    function nextBlock() {
+        if (validateCurrentBlock()) {
+            currentBlock++;
+            showBlock(currentBlock);
         }
+    }
 
-        function showBlock(blockNumber) {
-            // Ocultar todos los bloques
-            const blocks = document.querySelectorAll('.block');
-            blocks.forEach(block => block.classList.remove('active'));
+    function previousBlock() {
+        if (currentBlock > 1) {
+            currentBlock--;
+            showBlock(currentBlock);
+        }
+    }
 
-            // Mostrar el bloque actual
-            if (blockNumber <= totalBlocks) {
-                document.getElementById(`block${blockNumber}`).classList.add('active');
-            } else {
-                document.getElementById('completion').classList.add('active');
-            }
+    function updateNavigation(blockNumber) {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const navContainer = document.querySelector('.navigation');
 
-            // Actualizar navegación
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
+        if (blockNumber > totalBlocks) {
+            navContainer.style.display = 'none'; // Ocultar navegación en página final
+        } else {
+            navContainer.style.display = 'flex';
             prevBtn.style.display = blockNumber > 1 ? 'block' : 'none';
-            
-            if (blockNumber > totalBlocks) {
-                nextBtn.style.display = 'none';
-                // Ocultar el botón de retroceso y el indicador en la pantalla final
-                prevBtn.style.display = 'none';
-                document.getElementById('stepIndicator').style.display = 'none';
-            } else if (blockNumber === totalBlocks) {
-                nextBtn.textContent = 'Finalizar →';
-                nextBtn.style.display = 'block';
-                document.getElementById('stepIndicator').style.display = 'block';
-            } else {
-                nextBtn.textContent = 'Siguiente →';
-                nextBtn.style.display = 'block';
-                document.getElementById('stepIndicator').style.display = 'block';
+            nextBtn.textContent = blockNumber === totalBlocks ? 'Finalizar →' : 'Siguiente →';
+        }
+    }
+    
+    function updateProgress(blockNumber) {
+        const progress = Math.min(((blockNumber - 1) / totalBlocks) * 100, 100);
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function updateStepIndicator(blockNumber) {
+        const indicator = document.getElementById('stepIndicator');
+        if (blockNumber <= totalBlocks) {
+            indicator.textContent = `Bloque ${blockNumber} de ${totalBlocks}`;
+        }
+    }
+    // #endregion
+
+    // #region Lógica de Validación
+    function validateCurrentBlock() {
+        let isValid = true;
+        const block = document.getElementById(`block${currentBlock}`);
+        if (!block) return true;
+
+        // Limpiar errores previos en el bloque actual
+        block.querySelectorAll('.question').forEach(q => clearError(q));
+
+        const questions = block.querySelectorAll('.question');
+        questions.forEach(question => {
+            const qId = question.dataset.questionId;
+            // Omitir validación para la pregunta opcional
+            if (qId === 'q13') return;
+
+            let questionIsValid = true;
+
+            // Validación para Radio Buttons
+            const radio = question.querySelector('input[type="radio"]');
+            if (radio) {
+                questionIsValid = question.querySelector(`input[name="${radio.name}"]:checked`) !== null;
             }
 
-            updateProgress();
-            updateStepIndicator();
-        }
-
-        function nextBlock() {
-            if (validateCurrentBlock()) {
-                currentBlock++;
-                showBlock(currentBlock);
-            }
-        }
-
-        function previousBlock() {
-            if (currentBlock > 1) {
-                currentBlock--;
-                showBlock(currentBlock);
-            }
-        }
-
-        function validateCurrentBlock() {
-            // Aquí iría la lógica de validación por bloque
-            return true;
-        }
-
-        // CHG: Función de drag and drop mejorada para soportar múltiples contenedores de ranking
-        function setupDragAndDrop() {
-            const containers = document.querySelectorAll('.ranking-container');
-            containers.forEach(container => {
-                const items = container.querySelectorAll('.ranking-item');
-                items.forEach(item => {
-                    item.addEventListener('dragstart', handleDragStart);
-                    item.addEventListener('dragover', handleDragOver);
-                    item.addEventListener('drop', handleDrop);
-                    item.addEventListener('dragend', handleDragEnd);
-                });
-            });
-        }
-        
-        // CHG: variable global para el elemento arrastrado
-        let draggedElement = null;
-
-        function handleDragStart(e) {
-            draggedElement = e.target; // CHG: Guardar la referencia
-            e.target.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            // CHG: No es necesario transferir el HTML, la referencia es suficiente y más limpia
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            const dropTarget = e.target.closest('.ranking-item');
-            
-            if (dropTarget && draggedElement !== dropTarget) {
-                const container = dropTarget.parentElement;
-                // CHG: Lógica de reordenamiento mejorada
-                const rect = dropTarget.getBoundingClientRect();
-                const offsetY = e.clientY - rect.top;
-                
-                if (offsetY > rect.height / 2) {
-                    container.insertBefore(draggedElement, dropTarget.nextSibling);
-                } else {
-                    container.insertBefore(draggedElement, dropTarget);
+            // Validación para Checkboxes
+            const checkbox = question.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                const checkedCount = question.querySelectorAll(`input[name="${checkbox.name}"]:checked`).length;
+                if (checkbox.name === 'q2') { // Max 2 para q2
+                    questionIsValid = checkedCount > 0 && checkedCount <= 2;
+                } else { // Min 1 para el resto
+                    questionIsValid = checkedCount > 0;
                 }
             }
-        }
-
-        function handleDragEnd(e) {
-             if (draggedElement) {
-                draggedElement.classList.remove('dragging');
-                draggedElement = null; // CHG: Limpiar la referencia
-            }
-        }
-        
-        // CHG: Se actualiza la función para apuntar a los nuevos nombres/IDs de preguntas (q9 -> q10)
-        function setupDynamicQ10() {
-            const q9Checkboxes = document.querySelectorAll('input[name="q9"]');
-            const q10Options = document.getElementById('q10Options');
             
-            q9Checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    // Limpiar opciones previas
-                    q10Options.innerHTML = '';
-                    
-                    // Agregar solo las opciones seleccionadas
-                    const selectedOptions = document.querySelectorAll('input[name="q9"]:checked');
-                    selectedOptions.forEach(option => {
-                        const label = option.parentElement.querySelector('span').textContent;
-                        const optionHtml = `
-                            <label class="option">
-                                <input type="radio" name="q10" value="${option.value}">
-                                <span>${label}</span>
-                            </label>
-                        `;
-                        q10Options.innerHTML += optionHtml;
-                    });
-                });
-            });
-        }
-
-        // Agregar interactividad a las opciones
-        document.addEventListener('change', function(e) {
-            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
-                const optionLabel = e.target.closest('.option');
-                if (!optionLabel) return;
-
-                if (e.target.type === 'radio') {
-                    // Remover selección previa para radio buttons dentro del mismo contenedor de opciones
-                    const parentOptions = optionLabel.parentElement;
-                    const siblings = parentOptions.querySelectorAll('.option');
-                    siblings.forEach(sibling => sibling.classList.remove('selected'));
+            // Validación para Text Inputs y Textareas
+            const textInput = question.querySelector('.text-input, .input-field');
+            if (textInput) {
+                if(textInput.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    questionIsValid = emailRegex.test(textInput.value);
+                } else if (textInput.classList.contains('rut-field')) {
+                    questionIsValid = validateRUT(textInput.value);
                 }
-                
-                if (e.target.checked) {
-                    optionLabel.classList.add('selected');
-                } else {
-                    optionLabel.classList.remove('selected');
+                else {
+                    questionIsValid = textInput.value.trim() !== '';
                 }
+            }
+
+            // Validación para Ranking
+            const rankingWrapper = question.querySelector('.ranking-wrapper');
+            if (rankingWrapper) {
+                const filledSlots = rankingWrapper.querySelectorAll('.target-slot.filled').length;
+                questionIsValid = filledSlots === 3;
+            }
+
+            if (!questionIsValid) {
+                isValid = false;
+                showError(question);
             }
         });
 
-        // Inicializar
+        return isValid;
+    }
+
+    function showError(questionElement) {
+        questionElement.classList.add('is-invalid');
+        const errorMsg = questionElement.querySelector('.error-message');
+        if(errorMsg) errorMsg.style.display = 'block';
+    }
+
+    function clearError(questionElement) {
+        questionElement.classList.remove('is-invalid');
+        const errorMsg = questionElement.querySelector('.error-message');
+        if(errorMsg) errorMsg.style.display = 'none';
+    }
+
+    // #endregion
+
+    // #region Lógica de Ranking por Clic
+    function setupRankingInteraction(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        const sourceOptions = wrapper.querySelectorAll('.ranking-source .option');
+        const targetSlots = wrapper.querySelectorAll('.ranking-target .target-slot');
+
+        sourceOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Prevenir selección si ya está seleccionado o el ranking está lleno
+                if (option.classList.contains('selected')) return;
+                
+                const filledSlots = Array.from(targetSlots).filter(s => s.classList.contains('filled'));
+                if (filledSlots.length >= 3) return;
+
+                // Encontrar el primer slot vacío
+                const emptySlot = Array.from(targetSlots).find(s => !s.classList.contains('filled'));
+                
+                if (emptySlot) {
+                    option.classList.add('selected');
+                    emptySlot.classList.add('filled');
+                    emptySlot.innerHTML += `<span class="target-text">${option.textContent}</span>`;
+                    emptySlot.dataset.value = option.dataset.value;
+
+                    // Permitir deselección
+                    emptySlot.addEventListener('click', function deselectHandler() {
+                        option.classList.remove('selected');
+                        this.classList.remove('filled');
+                        this.querySelector('.target-text').remove();
+                        delete this.dataset.value;
+                        this.removeEventListener('click', deselectHandler);
+                    }, { once: true });
+                }
+            });
+        });
+    }
+    // #endregion
+
+    // #region Lógica de Preguntas Dinámicas
+    function setupDynamicQ11() {
+        const q10Checkboxes = document.querySelectorAll('input[name="q10"]');
+        const q11OptionsContainer = document.getElementById('q11Options');
+        
+        const updateQ11Options = () => {
+            // Limpiar opciones previas y guardar la selección actual
+            const currentSelection = q11OptionsContainer.querySelector('input[name="q11"]:checked');
+            const savedValue = currentSelection ? currentSelection.value : null;
+            q11OptionsContainer.innerHTML = '';
+            
+            const selectedOptions = document.querySelectorAll('input[name="q10"]:checked');
+            
+            if(selectedOptions.length === 0) {
+                 q11OptionsContainer.innerHTML = `<p style="color: #666; font-style: italic;">Selecciona primero tus áreas de interés en la pregunta anterior.</p>`;
+                 return;
+            }
+
+            selectedOptions.forEach(option => {
+                const label = option.parentElement.querySelector('span').textContent;
+                const isChecked = option.value === savedValue ? 'checked' : '';
+                const optionHtml = `
+                    <label class="option ${isChecked ? 'selected' : ''}">
+                        <input type="radio" name="q11" value="${option.value}" ${isChecked}>
+                        <span>${label}</span>
+                    </label>
+                `;
+                q11OptionsContainer.innerHTML += optionHtml;
+            });
+        };
+
+        q10Checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateQ11Options));
+    }
+    // #endregion
+
+    // #region Utilidades (Formato RUT)
+    function formatRUT(rut) {
+        let cleanRUT = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+        if (cleanRUT.length < 2) return cleanRUT;
+        
+        let body = cleanRUT.slice(0, -1);
+        let verifier = cleanRUT.slice(-1);
+
+        // Formatear con puntos
+        let formattedBody = "";
+        for (let i = body.length - 1, j = 0; i >= 0; i--, j++) {
+            if (j > 0 && j % 3 === 0) {
+                formattedBody = "." + formattedBody;
+            }
+            formattedBody = body[i] + formattedBody;
+        }
+        
+        return `${formattedBody}-${verifier}`;
+    }
+    
+    function validateRUT(rut) {
+        if (!/^[0-9]+-[0-9kK]{1}$/.test(rut.replace(/\./g, ''))) return false;
+        let cleanRUT = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+        let body = cleanRUT.slice(0, -1);
+        let verifier = cleanRUT.slice(-1);
+        
+        let sum = 0;
+        let multiplier = 2;
+        for (let i = body.length - 1; i >= 0; i--) {
+            sum += parseInt(body[i]) * multiplier;
+            multiplier = multiplier === 7 ? 2 : multiplier + 1;
+        }
+        let calculatedVerifier = 11 - (sum % 11);
+        calculatedVerifier = calculatedVerifier === 11 ? '0' : calculatedVerifier === 10 ? 'K' : String(calculatedVerifier);
+
+        return verifier === calculatedVerifier;
+    }
+
+    // #endregion
+
+    // #region Inicialización de Eventos
+    document.addEventListener('DOMContentLoaded', () => {
+        // Inicializar Rankings
+        setupRankingInteraction('ranking_q5');
+        setupRankingInteraction('ranking_q7');
+
+        // Inicializar pregunta dinámica
+        setupDynamicQ11();
+
+        // Agregar listeners para formato de RUT
+        document.querySelectorAll('.rut-field').forEach(field => {
+            field.addEventListener('input', (e) => {
+                const cursorPosition = e.target.selectionStart;
+                const originalLength = e.target.value.length;
+                e.target.value = formatRUT(e.target.value);
+                const newLength = e.target.value.length;
+                // Ajustar posición del cursor
+                if (newLength > originalLength) {
+                    e.target.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+                } else {
+                    e.target.setSelectionRange(cursorPosition, cursorPosition);
+                }
+            });
+        });
+
+        // Listeners para limpiar errores al interactuar
+        document.querySelectorAll('.question').forEach(q => {
+             q.addEventListener('change', () => clearError(q));
+             q.addEventListener('input', () => clearError(q));
+        });
+
+        // Listeners para selección visual
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+                const option = e.target.closest('.option');
+                if (e.target.type === 'radio') {
+                    option.parentElement.querySelectorAll('.option').forEach(s => s.classList.remove('selected'));
+                }
+                option.classList.toggle('selected', e.target.checked);
+            }
+        });
+
+        // Mostrar el primer bloque
         showBlock(1);
+    });
+    // #endregion
     </script>
 </body>
 </html>
+
