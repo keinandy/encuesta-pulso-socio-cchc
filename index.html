@@ -348,29 +348,84 @@
                     </div>
                 </div>
 
+                <!-- CHG: Pregunta 3 original dividida en 3a, 3b, 3c -->
                 <div class="question">
-                    <div class="question-label">3. ¿Aproximadamente cuántos trabajadores tiene tu empresa?</div>
+                    <div class="question-label">3.a. ¿Aproximadamente cuántos trabajadores DIRECTOS (personal de planta) tiene tu empresa?</div>
                     <div class="question-type">Pregunta de opción única</div>
                     <div class="options">
                         <label class="option">
-                            <input type="radio" name="q3" value="micro">
+                            <input type="radio" name="q3a" value="micro">
                             <span>Menos de 10 trabajadores</span>
                         </label>
                         <label class="option">
-                            <input type="radio" name="q3" value="pequena">
+                            <input type="radio" name="q3a" value="pequena">
                             <span>Entre 10 y 49 trabajadores</span>
                         </label>
                         <label class="option">
-                            <input type="radio" name="q3" value="mediana">
+                            <input type="radio" name="q3a" value="mediana">
                             <span>Entre 50 y 199 trabajadores</span>
                         </label>
                         <label class="option">
-                            <input type="radio" name="q3" value="mediana_grande">
+                            <input type="radio" name="q3a" value="mediana_grande">
                             <span>Entre 200 y 499 trabajadores</span>
                         </label>
                         <label class="option">
-                            <input type="radio" name="q3" value="grande">
+                            <input type="radio" name="q3a" value="grande">
                             <span>500 o más trabajadores</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-label">3.b. Y, en un mes promedio, ¿cuántos trabajadores INDIRECTOS (subcontratados) moviliza tu empresa?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3b" value="micro">
+                            <span>Menos de 10 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3b" value="pequena">
+                            <span>Entre 10 y 49 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3b" value="mediana">
+                            <span>Entre 50 y 199 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3b" value="mediana_grande">
+                            <span>Entre 200 y 499 trabajadores</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3b" value="grande">
+                            <span>500 o más trabajadores</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-label">3.c. Proyectando a 6 meses, ¿cómo esperas que varíe tu dotación total de trabajadores (directos + indirectos)?</div>
+                    <div class="question-type">Pregunta de opción única</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3c" value="aumenta_mucho">
+                            <span>Aumentará significativamente</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3c" value="aumenta_poco">
+                            <span>Aumentará ligeramente</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3c" value="mantiene">
+                            <span>Se mantendrá similar</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3c" value="disminuye_poco">
+                            <span>Disminuirá ligeramente</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3c" value="disminuye_mucho">
+                            <span>Disminuirá significativamente</span>
                         </label>
                     </div>
                 </div>
@@ -394,13 +449,17 @@
                         <div class="ranking-item" draggable="true">Dificultades con subcontratistas y proveedores</div>
                         <div class="ranking-item" draggable="true">Trámites y permisos burocráticos</div>
                         <div class="ranking-item" draggable="true">Cumplir plazos y mantener productividad</div>
+                        <!-- CHG: Se agregan 2 nuevas opciones al ranking -->
+                        <div class="ranking-item" draggable="true">Acceso a financiamiento</div>
+                        <div class="ranking-item" draggable="true">Conflictos con tus grupos de interés (comunidades, municipios, ong's)</div>
                     </div>
                 </div>
 
                 <div class="question">
-                    <div class="question-label">5. Sobre el desafío que marcaste como #1, cuéntanos en una frase: ¿cuál es el principal problema o "dolor de cabeza" que te genera?</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
-                    <textarea class="text-input" name="q5" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <!-- CHG: Se reformula la pregunta 5 para abarcar los 3 desafíos -->
+                    <div class="question-label">5. Respecto a los 3 desafíos principales que ordenaste, ¿podrías describir brevemente por qué son tan complejos para tu operación?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto</div>
+                    <textarea class="text-input" name="q5" rows="4" placeholder="Ej: 'La falta de personal cualificado (1) nos retrasa las obras, y el alza de precios (2) nos obliga a renegociar contratos constantemente...'"></textarea>
                 </div>
             </div>
 
@@ -412,180 +471,135 @@
                 </div>
 
                 <div class="question">
-                    <div class="question-label">6. Pensando en los próximos 2 años, ¿qué tendencia del entorno crees que definirá el éxito o fracaso de las empresas como la tuya?</div>
-                    <div class="question-type">Pregunta de opción única</div>
-                    <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q6" value="economia">
-                            <span>La inestabilidad económica y el acceso a financiamiento</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q6" value="normativas">
-                            <span>Las nuevas exigencias normativas y medioambientales</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q6" value="digitalizacion">
-                            <span>La capacidad de digitalizar e industrializar los procesos</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q6" value="competencia">
-                            <span>La competencia y la presión sobre los márgenes</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q6" value="talento">
-                            <span>La capacidad para atraer y fidelizar al mejor talento</span>
-                        </label>
+                    <!-- CHG: Pregunta 6 convertida a Ranking y con nueva opción -->
+                    <div class="question-label">6. Pensando en los próximos 2 años, ordena las siguientes tendencias del entorno según el impacto (positivo o negativo) que crees que tendrán en empresas como la tuya:</div>
+                    <div class="question-type">Pregunta de Ranking (arrastra para ordenar)</div>
+                    <div class="ranking-container" id="rankingContainer2">
+                        <div class="ranking-item" draggable="true">La inestabilidad económica y el acceso a financiamiento</div>
+                        <div class="ranking-item" draggable="true">Las nuevas exigencias normativas y medioambientales</div>
+                        <div class="ranking-item" draggable="true">La capacidad de digitalizar e industrializar los procesos</div>
+                        <div class="ranking-item" draggable="true">La competencia y la presión sobre los márgenes</div>
+                        <div class="ranking-item" draggable="true">La capacidad para atraer y fidelizar al mejor talento</div>
+                        <div class="ranking-item" draggable="true">Alza del costo de la mano de obra</div>
                     </div>
                 </div>
-
+                
+                <!-- CHG: Nueva pregunta 7 intermedia -->
                 <div class="question">
-                    <div class="question-label">7. A pesar de los desafíos, siempre hay oportunidades. ¿Dónde ves tú la veta más clara para que tu negocio crezca o se diferencie en el futuro cercano?</div>
+                    <div class="question-label">7. Sobre la tendencia que marcaste como #1, ¿la ves principalmente como un RIESGO (que podría llevar al fracaso) o como una OPORTUNIDAD (que podría impulsar el éxito) para tu empresa? ¿Por qué?</div>
                     <div class="question-type">Pregunta abierta, campo de texto corto</div>
                     <textarea class="text-input" name="q7" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                </div>
+
+                <!-- CHG: Pregunta 7 original pasa a ser la 8 y se cambia "negocio" por "empresa" -->
+                <div class="question">
+                    <div class="question-label">8. A pesar de los desafíos, siempre hay oportunidades. ¿Dónde ves tú la veta más clara para que tu empresa crezca o se diferencie en el futuro cercano?</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <textarea class="text-input" name="q8" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
                 </div>
             </div>
 
             <!-- BLOQUE 4: INTERESES -->
             <div class="block" id="block4">
+                <!-- CHG: Título del bloque actualizado -->
                 <div class="block-header">
-                    <div class="block-title">Bloque 4: Tus Focos de Interés para Crecer</div>
+                    <div class="block-title">Bloque 4: Focos de Interés y Visión Final</div>
                     <div class="block-subtitle">Duración estimada: 3-4 minutos</div>
                 </div>
 
                 <div class="question">
-                    <div class="question-label">8. Para potenciar tu empresa, nos interesa saber en qué áreas te gustaría adquirir nuevas herramientas o conocimientos. Marca todas las que te parezcan relevantes.</div>
+                    <div class="question-label">9. Para potenciar tu empresa, nos interesa saber en qué áreas te gustaría adquirir nuevas herramientas o conocimientos. Marca todas las que te parezcan relevantes.</div>
                     <div class="question-type">Pregunta de selección múltiple</div>
                     <div class="options">
                         <label class="option">
-                            <input type="checkbox" name="q8" value="estrategia">
+                            <input type="checkbox" name="q9" value="estrategia">
                             <span>Estrategia de Negocio y Nuevas Oportunidades de Mercado</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="finanzas">
+                            <input type="checkbox" name="q9" value="finanzas">
                             <span>Gestión Financiera (control de costos, flujo de caja, financiamiento)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="liderazgo">
+                            <input type="checkbox" name="q9" value="liderazgo">
                             <span>Liderazgo y Gestión de Equipos</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="trabajadores">
+                            <input type="checkbox" name="q9" value="trabajadores">
                             <span>Encontrar y Mantener Buenos Trabajadores</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="capacitacion">
+                            <input type="checkbox" name="q9" value="capacitacion">
                             <span>Capacitación del Personal (oficios, nuevas técnicas, certificaciones)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="clima">
+                            <input type="checkbox" name="q9" value="clima">
                             <span>Clima Laboral y Motivación del Equipo</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="seguridad">
+                            <input type="checkbox" name="q9" value="seguridad">
                             <span>Prevención de Accidentes y Seguridad</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="tecnologia">
+                            <input type="checkbox" name="q9" value="tecnologia">
                             <span>Tecnología para Mejorar el Trabajo (software, herramientas digitales)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="negociacion">
+                            <input type="checkbox" name="q9" value="negociacion">
                             <span>Negociación con Clientes y Manejo de Contratos</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="proveedores">
+                            <input type="checkbox" name="q9" value="proveedores">
                             <span>Problemas con Proveedores y Materiales (disponibilidad, precios, calidad)</span>
                         </label>
+                        <!-- CHG: Opción "Comunidad y Vecinos" reemplazada -->
                         <label class="option">
-                            <input type="checkbox" name="q8" value="comunidad">
-                            <span>Relación con la Comunidad y Vecinos</span>
+                            <input type="checkbox" name="q9" value="grupos_interes">
+                            <span>Relación con grupos de interés (comunidades, municipios, ong's)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="ambiente">
+                            <input type="checkbox" name="q9" value="ambiente">
                             <span>Temas Ambientales (residuos, permisos, eficiencia)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="diferenciacion">
+                            <input type="checkbox" name="q9" value="diferenciacion">
                             <span>Diferenciarse de la Competencia (qué nos hace únicos)</span>
                         </label>
                         <label class="option">
-                            <input type="checkbox" name="q8" value="normativas">
+                            <input type="checkbox" name="q9" value="normativas">
                             <span>Cumplir con Normativas y Fiscalizaciones</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="question">
-                    <div class="question-label">9. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
+                    <div class="question-label">10. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
                     <div class="question-type">Pregunta de opción única (basada en respuestas anteriores)</div>
-                    <div class="options" id="q9Options">
+                    <div class="options" id="q10Options">
                         <!-- Se poblará dinámicamente -->
                     </div>
                 </div>
 
                 <div class="question">
-                    <div class="question-label">10. Respecto a esa área prioritaria que elegiste, ¿qué problema específico te gustaría resolver o qué habilidad concreta te gustaría aprender?</div>
+                    <div class="question-label">11. Respecto a esa área prioritaria que elegiste, ¿qué problema específico te gustaría resolver o qué habilidad concreta te gustaría aprender?</div>
                     <div class="question-type">Pregunta abierta, campo de texto corto</div>
-                    <textarea class="text-input" name="q10" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
-                </div>
-
-                <div class="question">
-                    <div class="question-label">11. ¿Hay algún otro desafío o tema importante para tu empresa que no hayamos mencionado? (Opcional)</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto (opcional)</div>
                     <textarea class="text-input" name="q11" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
                 </div>
-            </div>
-
-            <!-- BLOQUE 5: SOSTENIBILIDAD -->
-            <div class="block" id="block5">
-                <div class="block-header">
-                    <div class="block-title">Bloque 5: Sostenibilidad y Visión de Impacto</div>
-                    <div class="block-subtitle">Duración estimada: 2-3 minutos</div>
-                </div>
 
                 <div class="question">
-                    <div class="question-label">12. Cuando escuchas 'empresa sostenible', ¿qué es lo primero que te viene a la mente?</div>
-                    <div class="question-type">Pregunta abierta, campo de texto corto</div>
+                    <div class="question-label">12. ¿Hay algún otro desafío o tema importante para tu empresa que no hayamos mencionado? (Opcional)</div>
+                    <div class="question-type">Pregunta abierta, campo de texto corto (opcional)</div>
                     <textarea class="text-input" name="q12" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
                 </div>
 
-                <div class="question">
-                    <div class="question-label">13. En tu experiencia, ¿qué presiona más a las empresas del sector para ser más sostenibles?</div>
-                    <div class="question-type">Pregunta de opción única</div>
-                    <div class="options">
-                        <label class="option">
-                            <input type="radio" name="q13" value="clientes">
-                            <span>Los clientes/mandantes lo exigen cada vez más</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q13" value="normativas">
-                            <span>Las normativas y fiscalizaciones</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q13" value="eficiencia">
-                            <span>Es una oportunidad de reducir costos/ser más eficientes</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q13" value="competencia">
-                            <span>La competencia ya lo está haciendo</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q13" value="valores">
-                            <span>Es parte de nuestros valores como empresa</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="q13" value="no_presion">
-                            <span>Honestly, no veo mucha presión todavía</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="question-label">14. Si tuvieras que elegir UNA acción concreta para que tu empresa sea más sostenible el próximo año, ¿cuál sería?</div>
+                <!-- CHG: Pregunta 13 (antes 12 del bloque 5) movida aquí como pregunta final -->
+                 <div class="question">
+                    <div class="question-label">13. Por último, cuando escuchas 'empresa sostenible', ¿qué es lo primero que te viene a la mente?</div>
                     <div class="question-type">Pregunta abierta, campo de texto corto</div>
-                    <textarea class="text-input" name="q14" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
+                    <textarea class="text-input" name="q13" rows="3" placeholder="Escribe aquí tu respuesta..."></textarea>
                 </div>
             </div>
+
+            <!-- CHG: Bloque 5 completamente eliminado -->
 
             <!-- PÁGINA DE COMPLETADO -->
             <div class="block" id="completion">
@@ -601,7 +615,7 @@
 
             <div class="navigation">
                 <button class="btn btn-secondary" id="prevBtn" onclick="previousBlock()">← Anterior</button>
-                <div class="step-indicator" id="stepIndicator">Bloque 1 de 5</div>
+                <div class="step-indicator" id="stepIndicator">Bloque 1 de 4</div>
                 <button class="btn btn-primary" id="nextBtn" onclick="nextBlock()">Siguiente →</button>
             </div>
         </div>
@@ -609,13 +623,14 @@
 
     <script>
         let currentBlock = 1;
-        const totalBlocks = 5;
+        // CHG: Se actualiza el número total de bloques de 5 a 4
+        const totalBlocks = 4;
 
         // Configurar drag and drop para ranking
         setupDragAndDrop();
 
-        // Configurar validación dinámica para q9
-        setupDynamicQ9();
+        // Configurar validación dinámica para q10 (antes q9)
+        setupDynamicQ10();
 
         function updateProgress() {
             const progress = ((currentBlock - 1) / totalBlocks) * 100;
@@ -651,10 +666,17 @@
             
             if (blockNumber > totalBlocks) {
                 nextBtn.style.display = 'none';
+                // Ocultar el botón de retroceso y el indicador en la pantalla final
+                prevBtn.style.display = 'none';
+                document.getElementById('stepIndicator').style.display = 'none';
             } else if (blockNumber === totalBlocks) {
                 nextBtn.textContent = 'Finalizar →';
+                nextBtn.style.display = 'block';
+                document.getElementById('stepIndicator').style.display = 'block';
             } else {
                 nextBtn.textContent = 'Siguiente →';
+                nextBtn.style.display = 'block';
+                document.getElementById('stepIndicator').style.display = 'block';
             }
 
             updateProgress();
@@ -680,22 +702,28 @@
             return true;
         }
 
+        // CHG: Función de drag and drop mejorada para soportar múltiples contenedores de ranking
         function setupDragAndDrop() {
-            const container = document.getElementById('rankingContainer');
-            const items = container.querySelectorAll('.ranking-item');
-
-            items.forEach(item => {
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('drop', handleDrop);
-                item.addEventListener('dragend', handleDragEnd);
+            const containers = document.querySelectorAll('.ranking-container');
+            containers.forEach(container => {
+                const items = container.querySelectorAll('.ranking-item');
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
             });
         }
+        
+        // CHG: variable global para el elemento arrastrado
+        let draggedElement = null;
 
         function handleDragStart(e) {
+            draggedElement = e.target; // CHG: Guardar la referencia
             e.target.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', e.target.outerHTML);
+            // CHG: No es necesario transferir el HTML, la referencia es suficiente y más limpia
         }
 
         function handleDragOver(e) {
@@ -705,45 +733,50 @@
 
         function handleDrop(e) {
             e.preventDefault();
-            const draggedElement = document.querySelector('.dragging');
             const dropTarget = e.target.closest('.ranking-item');
             
             if (dropTarget && draggedElement !== dropTarget) {
-                const container = document.getElementById('rankingContainer');
-                const draggedData = e.dataTransfer.getData('text/html');
+                const container = dropTarget.parentElement;
+                // CHG: Lógica de reordenamiento mejorada
+                const rect = dropTarget.getBoundingClientRect();
+                const offsetY = e.clientY - rect.top;
                 
-                dropTarget.insertAdjacentHTML('beforebegin', draggedData);
-                container.removeChild(draggedElement);
-                
-                // Re-setup drag and drop
-                setupDragAndDrop();
+                if (offsetY > rect.height / 2) {
+                    container.insertBefore(draggedElement, dropTarget.nextSibling);
+                } else {
+                    container.insertBefore(draggedElement, dropTarget);
+                }
             }
         }
 
         function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
+             if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+                draggedElement = null; // CHG: Limpiar la referencia
+            }
         }
-
-        function setupDynamicQ9() {
-            const q8Checkboxes = document.querySelectorAll('input[name="q8"]');
-            const q9Options = document.getElementById('q9Options');
+        
+        // CHG: Se actualiza la función para apuntar a los nuevos nombres/IDs de preguntas (q9 -> q10)
+        function setupDynamicQ10() {
+            const q9Checkboxes = document.querySelectorAll('input[name="q9"]');
+            const q10Options = document.getElementById('q10Options');
             
-            q8Checkboxes.forEach(checkbox => {
+            q9Checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     // Limpiar opciones previas
-                    q9Options.innerHTML = '';
+                    q10Options.innerHTML = '';
                     
                     // Agregar solo las opciones seleccionadas
-                    const selectedOptions = document.querySelectorAll('input[name="q8"]:checked');
+                    const selectedOptions = document.querySelectorAll('input[name="q9"]:checked');
                     selectedOptions.forEach(option => {
                         const label = option.parentElement.querySelector('span').textContent;
                         const optionHtml = `
                             <label class="option">
-                                <input type="radio" name="q9" value="${option.value}">
+                                <input type="radio" name="q10" value="${option.value}">
                                 <span>${label}</span>
                             </label>
                         `;
-                        q9Options.innerHTML += optionHtml;
+                        q10Options.innerHTML += optionHtml;
                     });
                 });
             });
@@ -752,17 +785,20 @@
         // Agregar interactividad a las opciones
         document.addEventListener('change', function(e) {
             if (e.target.type === 'radio' || e.target.type === 'checkbox') {
-                const option = e.target.parentElement;
+                const optionLabel = e.target.closest('.option');
+                if (!optionLabel) return;
+
                 if (e.target.type === 'radio') {
-                    // Remover selección previa para radio buttons
-                    const siblings = option.parentElement.querySelectorAll('.option');
+                    // Remover selección previa para radio buttons dentro del mismo contenedor de opciones
+                    const parentOptions = optionLabel.parentElement;
+                    const siblings = parentOptions.querySelectorAll('.option');
                     siblings.forEach(sibling => sibling.classList.remove('selected'));
                 }
                 
                 if (e.target.checked) {
-                    option.classList.add('selected');
+                    optionLabel.classList.add('selected');
                 } else {
-                    option.classList.remove('selected');
+                    optionLabel.classList.remove('selected');
                 }
             }
         });
